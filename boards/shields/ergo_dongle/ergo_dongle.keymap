@@ -1,0 +1,30 @@
+/*
+ * The dongle is the central, so it runs the actual keymap (layers, combos,
+ * behaviors). Rather than duplicate it, include the keyboard's keymap so
+ * there's ONE source of truth - edit ergo.keymap and the dongle picks it up.
+ *
+ * The keymap references the matrix transform + physical layout, which are
+ * provided by ergo_dongle.overlay (the dongle's own copies).
+ */
+#include "../ergo/ergo.keymap"
+
+/*
+ * ---- Screen geometry override for the 135x240 panel ----
+ * Placed HERE (the keymap) deliberately: this file is processed AFTER YADS'
+ * dongle_screen board overlay, which is where &st7789 is defined. Overriding
+ * it in ergo_dongle.overlay failed because that loads BEFORE the label exists.
+ *
+ * YADS defaults &st7789 to a 240x280 panel; ours is 135x240. Values below are
+ * a known-good config for 1.14" 135x240 ST7789V panels. If the image is
+ * shifted/clipped or colors look wrong after flashing, nudge x-offset/y-offset
+ * (try 52/40 or 40/53) and toggle colmod.
+ */
+&st7789 {
+    width = <135>;
+    height = <240>;
+    x-offset = <53>;
+    y-offset = <40>;
+    vcom = <0x28>;
+    colmod = <0x55>;
+    cmd2en-param = [ 5a 69 02 00 ];
+};
