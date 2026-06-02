@@ -67,8 +67,7 @@ lv_obj_t *zmk_display_status_screen()
 #endif
 
 #if CONFIG_DONGLE_SCREEN_WPM_ACTIVE
-    zmk_widget_wpm_status_init(&wpm_status_widget, screen);
-    lv_obj_align(zmk_widget_wpm_status_obj(&wpm_status_widget), LV_ALIGN_TOP_LEFT, 20, 20);
+    /* WPM widget removed - the bongo cat widget now shows the WPM number. */
 #endif
 
 #if CONFIG_DONGLE_SCREEN_LAYER_ACTIVE
@@ -84,7 +83,7 @@ lv_obj_t *zmk_display_status_screen()
 #if CONFIG_DONGLE_SCREEN_BONGO_ACTIVE
     zmk_widget_bongo_cat_init(&bongo_cat_widget, screen);
     /* Bottom-right corner. Nudge these offsets to taste once you see it. */
-    lv_obj_align(zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_RIGHT, -5, -5);
+    lv_obj_align(zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_TOP_LEFT, 0, 0);
 #endif
 
     return screen;
