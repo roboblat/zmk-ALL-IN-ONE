@@ -46,7 +46,7 @@ lv_obj_t *zmk_display_status_screen()
     lv_obj_t *screen;
 
     screen = lv_obj_create(NULL);
-    lv_obj_set_style_bg_color(screen, lv_color_hex(0x000000), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(screen, lv_color_hex(0x9400D4), LV_PART_MAIN);
     lv_obj_set_style_bg_opa(screen, 255, LV_PART_MAIN);
 
     lv_style_init(&global_style);
@@ -82,8 +82,8 @@ lv_obj_t *zmk_display_status_screen()
 
 #if CONFIG_DONGLE_SCREEN_BONGO_ACTIVE
     zmk_widget_bongo_cat_init(&bongo_cat_widget, screen);
-    /* Bottom-right corner. Nudge these offsets to taste once you see it. */
     lv_obj_align(zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_TOP_LEFT, 0, 0);
+    lv_obj_move_background(zmk_widget_bongo_cat_obj(&bongo_cat_widget));
 #endif
 
     return screen;
