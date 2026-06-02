@@ -69,7 +69,7 @@
     input-processors =
         <&trackpad_transform (INPUT_TRANSFORM_X_INVERT)>,
         <&zip_xy_scaler 1 1>,
-        <&trackpad_scroll_transform (INPUT_TRANSFORM_Y_INVERT)>,
+        <&trackpad_scroll_transform 0>,
         <&zip_scroll_scaler 1 1>;
 };
 
