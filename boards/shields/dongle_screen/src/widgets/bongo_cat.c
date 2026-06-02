@@ -97,13 +97,13 @@ static int bongo_key_listener(const zmk_event_t *eh)
         return 0; // only on key-down
     }
     bonk_toggle ^= 1;
-    int frame = bonk_toggle ? 1 : 2; // alternate one-paw / both-paws
+    int frame = bonk_toggle ? 1 : 2;
     struct zmk_widget_bongo_cat *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node)
     {
+        widget->last_frame = -1;
         set_frame(widget, frame);
     }
-    /* schedule paws-up after a short quiet period */
     k_work_reschedule(&idle_return_work, K_MSEC(BONGO_IDLE_RETURN_MS));
     return 0;
 }
