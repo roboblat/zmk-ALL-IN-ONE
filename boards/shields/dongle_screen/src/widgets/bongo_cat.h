@@ -1,6 +1,8 @@
 /*
  * Bongo Cat widget for YADS (color ST7789).
- * WPM-driven: swaps between idle / slow / fast paw frames based on typing speed.
+ * Bonks on each keypress (snappy), shows live WPM number, and picks a paw
+ * frame by typing speed. Designed to sit top-left and replace the separate
+ * WPM widget.
  */
 
 #pragma once
@@ -11,8 +13,9 @@
 struct zmk_widget_bongo_cat
 {
     lv_obj_t *obj;
-    lv_obj_t *img;   // the cat image; its source is swapped by WPM tier
-    int last_tier;   // 0 idle, 1 slow, 2 fast - avoids redundant redraws
+    lv_obj_t *img;      // the cat image
+    lv_obj_t *wpm_label; // live WPM number overlaid on the widget
+    int last_frame;     // 0 up, 1 one-paw, 2 both-paws - avoids redundant redraws
     sys_snode_t node;
 };
 
