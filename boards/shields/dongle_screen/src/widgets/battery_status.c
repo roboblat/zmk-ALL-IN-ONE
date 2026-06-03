@@ -82,18 +82,22 @@ static bool is_peripheral_reconnecting(uint8_t source, uint8_t new_level)
 
 static void draw_battery(lv_obj_t *canvas, uint8_t level, bool usb_present)
 {
+    /* Base fill stays white; the RIGHT EDGE of the filled segment gets a charge
+       color: green >=80, yellow 45-79, red <=44. */
+    lv_canvas_fill_bg(canvas, lv_color_white(), LV_OPA_COVER);
 
-    if (level < 1)
+    lv_color_t edge_color;
+    if (level >= 80)
     {
-        lv_canvas_fill_bg(canvas, lv_palette_main(LV_PALETTE_RED), LV_OPA_COVER);
+        edge_color = lv_palette_main(LV_PALETTE_GREEN);
     }
-    else if (level <= 10)
+    else if (level >= 45)
     {
-        lv_canvas_fill_bg(canvas, lv_palette_main(LV_PALETTE_YELLOW), LV_OPA_COVER);
+        edge_color = lv_palette_main(LV_PALETTE_YELLOW);
     }
     else
     {
-        lv_canvas_fill_bg(canvas, lv_color_white(), LV_OPA_COVER);
+        edge_color = lv_palette_main(LV_PALETTE_RED);
     }
 
     lv_draw_rect_dsc_t rect_fill_dsc;
@@ -107,6 +111,17 @@ static void draw_battery(lv_obj_t *canvas, uint8_t level, bool usb_present)
 
     if (level <= 99 && level > 0)
     {
+        /* Color the last few pixels of the FILLED part (the moving right edge). */
+        int edge_start = level - 4; // ~4px colored edge
+        if (edge_start < 0)
+            edge_start = 0;
+        for (int x = edge_start; x < level; x++)
+        {
+            for (int y = 1; y < 4; y++)
+            {
+                lv_canvas_set_px(canvas, x, y, edge_color, LV_OPA_COVER);
+            }
+        }
         // Draw filled rectangle manually since lv_canvas_draw_rect doesn't exist in LVGL v8+
         for (int x = level; x < 100; x++)
         {
